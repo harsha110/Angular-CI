@@ -1,27 +1,26 @@
 language: node_js
+
 node_js:
-  - "9" 
-dist: trusty
-sudo: false
+ - '10.11.0'
 
 branches:
-  only:
-  - master
+ only:
+   - master
 
 cache:
-  directories:
-    - node_modules
+ directories:
+   - node_modules
 
-install:
-  - npm install -g yarn
+notifications:
+ email:
+   on_success: always
+   on_failure: always
+ slack: cgiwave6:h9BQb1Y4KA4QNTysVx79hgt0
+
+before_script:
+ - npm install -g @angular-devkit/build-angular
+ - npm install -g @angular/cli
 
 script:
-  - yarn lint
-  - yarn build --base-href https://harsha110.github.io/Angular-CI/
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: dist/angularTestting
-  on:
-    branch: master
+ -ng build
+ -ng test
